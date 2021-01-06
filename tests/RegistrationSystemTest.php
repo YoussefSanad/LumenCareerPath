@@ -56,23 +56,5 @@ class RegistrationSystemTest extends TestCase
     }
 
 
-    private function register()
-    {
-        return $this->post('/api/register', [
-            'name' => 'test',
-            'email' => 'test@mail.com',
-            'password' => 'testtest',
-        ]);
-    }
-
-
-    public function login()
-    {
-        return $this->post('/api/login', [
-            'email' => 'test@mail.com',
-            'password' => 'testtest',
-        ]);
-    }
-
 
 }

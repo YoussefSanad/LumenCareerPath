@@ -13,4 +13,22 @@ abstract class TestCase extends BaseTestCase
     {
         return require __DIR__.'/../bootstrap/app.php';
     }
+
+    protected function register()
+    {
+        return $this->post('/api/register', [
+            'name' => 'test',
+            'email' => 'test@mail.com',
+            'password' => 'testtest',
+        ]);
+    }
+
+
+    protected function login()
+    {
+        return $this->post('/api/login', [
+            'email' => 'test@mail.com',
+            'password' => 'testtest',
+        ]);
+    }
 }

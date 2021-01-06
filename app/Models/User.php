@@ -33,6 +33,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     protected $guarded = [];
+
+    public function jobPosts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(JobPost::class);
+    }
+
+    public function applications(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
