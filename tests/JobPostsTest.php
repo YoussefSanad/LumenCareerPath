@@ -81,6 +81,19 @@ class JobPostsTest extends TestCase
         $this->assertCount(0, \App\Models\JobPost::all());
     }
 
+    /**
+     * @test
+     */
+    public function input_validation_test()
+    {
+        $response = $this->post('/api/job_posts', [], $this->headers)->seeStatusCode(200)->response->getContent();
+        $content = json_decode($response);
+        self::assertEquals(false, $content->success);
+        $this->assertCount(0, \App\Models\JobPost::all());
+    }
+
+
+
 
     private function createJobPost()
     {

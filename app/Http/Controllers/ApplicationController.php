@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Application;
+use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
 {
@@ -98,7 +99,7 @@ class ApplicationController extends Controller
      */
     private static function validateInput(Request $request)
     {
-        $request->validate([
+        Validator::validate($request->all(), [
             'job_post_id'     => 'required|integer',
             'first_name'      => 'required|string',
             'last_name'       => 'required|string',
