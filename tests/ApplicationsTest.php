@@ -1,6 +1,8 @@
 <?php
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use Illuminate\Http\UploadedFile;
+use Carbon\Carbon;
 
 class ApplicationsTest extends TestCase
 {
@@ -17,7 +19,7 @@ class ApplicationsTest extends TestCase
         $token = json_decode($this->login()->response->getContent())->token;
         $this->user = auth()->user();
         $this->headers = [
-            "Content-Type" => "multipart/form-data",
+            "Content-Type"  => "multipart/form-data",
             "Authorization" => "Bearer $token",
         ];
     }
@@ -55,31 +57,38 @@ class ApplicationsTest extends TestCase
         self::assertCount(0, \App\Models\Application::all());
     }
 
+    /* @test */
+    public function user_can_download_cv()
+    {
+
+    }
+
     /**
      * @test
      */
     public function user_can_add_an_application()
     {
-        $this->addApplication()->seeStatusCode(200);
+        $res = $this->addApplication();
+        $content = json_decode($res->getContent());
+        self::assertEquals(200, $res->getStatusCode());
         self::assertCount(1, \App\Models\Application::all());
-        \Illuminate\Support\Facades\Storage::disk('CVs')->assertExists('cv.pdf');
-
+        self::assertFileExists($content->payload->attachment_path);
     }
 
     private function addApplication()
     {
-        \Illuminate\Support\Facades\Storage::fake('CVs');
-        return $this->post('/api/applications', [
-            'user_id' => $this->user->id,
-            'job_post_id' => 1,
-            'first_name' => 'test',
-            'last_name' => 'test',
+        $cv = UploadedFile::fake()->image('cv.jpg');
+        return $this->call('POST', '/api/applications', [
+            'user_id'         => $this->user->id,
+            'job_post_id'     => 1,
+            'first_name'      => 'test',
+            'last_name'       => 'test',
             'university_name' => 'test',
-            'date_of_birth' => Carbon::now(),
-            'email' => 'test@test.com',
-            'notes' => 'test',
-            'cv' => \Illuminate\Http\UploadedFile::fake()->image('cv.jpg')
-        ], $this->headers);
+            'date_of_birth'   => Carbon::now(),
+            'email'           => 'test@test.com',
+            'notes'           => 'test',
+        ], [], [ 'cv' => $cv ],['headers' => $this->headers]);
+
 
     }
 

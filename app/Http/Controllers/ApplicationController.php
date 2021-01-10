@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Application;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
@@ -106,7 +108,7 @@ class ApplicationController extends Controller
             'university_name' => 'required|string',
             'date_of_birth'   => 'required|date',
             'email'           => 'required|email',
-            'cv'              => 'required|mimes:doc,docx,pdf,txt|max:2048',
+            'cv'              => 'required|mimes:jpg,doc,docx,pdf,txt|max:2048',
             'notes'           => 'required|string',
         ]);
     }
@@ -142,12 +144,10 @@ class ApplicationController extends Controller
         $attachmentPath = null;
         if ($request->hasFile('cv'))
         {
-            $file = $request->file('cv');
             $path = 'public/documents';
-            $name = $file->getClientOriginalName();
-            $attachmentPath = $file->storeAs($path, $name);
+            $attachmentPath = $request->file('cv')->move($path)->getPath();
         }
-        if (!$attachmentPath) throw new \Exception("No file found");
+        if (!$attachmentPath) throw new \Exception("No file foundssss");
         return $attachmentPath;
     }
 }
