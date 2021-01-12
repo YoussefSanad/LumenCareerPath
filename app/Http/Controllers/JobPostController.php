@@ -39,7 +39,6 @@ class JobPostController
      */
     public function store(Request $request)
     {
-
         try {
             self::validateInput($request);
             return self::respond(self::createJobPost($request));
@@ -126,7 +125,7 @@ class JobPostController
     private static function createJobPost(Request $request)
     {
         return JobPost::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => 1,
             'title' => $request->title,
             'required_experience_level' => $request->required_experience_level,
             'job_requirements' => $request->job_requirements,
@@ -146,7 +145,7 @@ class JobPostController
         $jobPost = JobPost::find($jobPostId);
         if (!$jobPost) throw new \Exception('Job post not found');
         $jobPost->update([
-            'user_id' => auth()->user()->id,
+            'user_id' => 1,
             'title' => $request->title,
             'required_experience_level' => $request->required_experience_level,
             'job_requirements' => $request->job_requirements,

@@ -24,7 +24,7 @@ class JobPostFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'                   => auth()->user()->id,
+            'user_id'                   => 1,
             'title'                     => $this->faker->title,
             'required_experience_level' => $this->faker->jobTitle,
             'job_requirements'          => $this->faker->bloodType,

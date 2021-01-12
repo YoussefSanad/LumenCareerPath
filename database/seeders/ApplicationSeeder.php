@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Application;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class ApplicationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([UserSeeder::class, JobPostSeeder::class, ApplicationSeeder::class]);
+        Application::factory()->count(20)->create();
     }
 }

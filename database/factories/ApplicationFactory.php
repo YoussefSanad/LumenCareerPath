@@ -25,7 +25,7 @@ class ApplicationFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'         => auth()->user()->id,
+            'user_id'         => 1,
             'job_post_id'     => 1,
             'first_name'      => $this->faker->firstName,
             'last_name'       => $this->faker->lastName,
