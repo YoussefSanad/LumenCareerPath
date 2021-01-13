@@ -20,12 +20,13 @@ class AuthController extends Controller
     {
         //validate incoming request
         $this->validate($request, [
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'name'     => 'required|string',
+            'email'    => 'required|email|unique:users',
             'password' => 'required',
         ]);
 
-        try {
+        try
+        {
             $user = new User();
             $user->name = $request->input('name');
             $user->email = $request->input('email');
@@ -37,7 +38,8 @@ class AuthController extends Controller
             //return successful response
             return response()->json(['user' => $user, 'success' => true], 201);
 
-        } catch (\Exception $e) {
+        } catch (\Exception $e)
+        {
             //return error message
             return response()->json(['message' => 'User Registration Failed!'], 409);
         }
@@ -54,17 +56,28 @@ class AuthController extends Controller
     {
         //validate incoming request
         $this->validate($request, [
-            'email' => 'required|string',
+            'email'    => 'required|string',
             'password' => 'required|string',
         ]);
 
         $credentials = $request->only(['email', 'password']);
 
-        if (!$token = Auth::attempt($credentials)) {
+        if (!$token = Auth::attempt($credentials))
+        {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        return response()->json(['message' => 'User successfully signed out']);
     }
 
 

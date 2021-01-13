@@ -55,6 +55,18 @@ class RegistrationSystemTest extends TestCase
         ])->assertResponseStatus(200);
     }
 
+    /**
+     * @test
+     */
+    public function a_user_can_logout()
+    {
+        $this->register();
+        $contents = json_decode($this->login()->response->getContent());
+        $this->post('/api/logout', [], [
+            "Authorization" => "Bearer $contents->token",
+        ]);
+        $this->assertNull(auth()->user());
+    }
 
 
 }

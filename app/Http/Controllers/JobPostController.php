@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\JobPost;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class JobPostController
